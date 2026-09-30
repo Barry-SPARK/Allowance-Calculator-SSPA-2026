@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Kalkulator Elaun</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      body { background-color: #f4f6f9; padding: 15px 10px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+      .nav-pills .nav-link { font-weight: 600; font-size: 0.95rem; padding: 10px 15px; border-radius: 10px; color: #495057; }
+      .nav-pills .nav-link.active { background-color: #0d6efd; color: white; box-shadow: 0 4px 10px rgba(13,110,253,0.3); }
+      .card { border-radius: 12px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.06); margin-bottom: 18px; }
+      .card-header { font-weight: 600; border-top-left-radius: 12px !important; border-top-right-radius: 12px !important; }
+      .bg-eks { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: white; }
+      .bg-ot { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; }
+      .kadar-badge { background-color: #e2e8f0; color: #1e293b; font-size: 0.8rem; padding: 3px 6px; border-radius: 6px; }
+      .panduan-box { background-color: #fffbeb; border: 1px solid #fef3c7; border-radius: 8px; padding: 12px; font-size: 0.85rem; }
+      .jam-kerja-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <div class="container" style="max-width: 850px;">
+      <h4 class="text-center text-dark mb-3 fw-bold">Sistem Kalkulator Elaun</h4>
+
+      <!-- Tab Navigasi Berasingan -->
+      <ul class="nav nav-pills nav-justified mb-3" id="elaunTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="eks-tab" data-bs-toggle="pill" data-bs-target="#tab-eks" type="button" role="tab">
+            1. Kalkulator EKS
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="ot-tab" data-bs-toggle="pill" data-bs-target="#tab-ot" type="button" role="tab">
+            2. Kalkulator OT
+          </button>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="elaunTabContent">
+        
+        <!-- ================= TAB 1: KALKULATOR EKS ================= -->
+        <div class="tab-pane fade show active" id="tab-eks" role="tabpanel">
+          
+          <!-- Pemilihan Gred SSPA -->
+          <div class="card p-3">
+            <label class="form-label fw-bold">Pilih Gred Jawatan SSPA:</label>
+            <select id="gredEKS" class="form-select" onchange="kiraEKS()">
+              <option value="JusaC">JUSA C & ke atas (Makan: RM195 | Lojing: RM165)</option>
+              <option value="14">Gred 14 [SSM 54] (Makan: RM190 | Lojing: RM160)</option>
+              <option value="13">Gred 13 [SSM 52/53] (Makan: RM175 | Lojing: RM150)</option>
+              <option value="11_12">Gred 11 - 12 [SSM 45-48] (Makan: RM140 | Lojing: RM140)</option>
+              <option value="9_10">Gred 9 - 10 [SSM 41-44] (Makan: RM125 | Lojing: RM130)</option>
+              <option value="5_8" selected>Gred 5 - 8 [SSM 29-40] (Makan: RM120 | Lojing: RM120)</option>
+              <option value="1_3">Gred 1 - 3 [SSM 19-26] (Makan: RM115 | Lojing: RM110)</option>
+              <option value="PSH">PSH (Makan: RM55 | Lojing: RM45)</option>
+            </select>
+          </div>
+
+          <!-- Elaun Makan (Dengan Panduan Bersebelahan) -->
+          <div class="card">
+            <div class="card-header bg-warning text-dark">A. Elaun Makan</div>
+            <div class="card-body">
+              <div class="row g-3">
+                <!-- Borang Input -->
+                <div class="col-md-7">
+                  <div class="row g-2">
+                    <div class="col-6">
+                      <label class="form-label small fw-semibold">Hari 100% (Penuh)</label>
+                      <input type="number" id="h100" class="form-control" placeholder="0" min="0" oninput="kiraEKS()">
+                    </div>
+                    <div class="col-6">
+                      <label class="form-label small fw-semibold">Hari 80%</label>
+                      <input type="number" id="h80" class="form-control" placeholder="0" min="0" oninput="kiraEKS()">
+                    </div>
+                    <div class="col-6">
+                      <label class="form-label small fw-semibold">Hari 60%</label>
+                      <input type="number" id="h60" class="form-control" placeholder="0" min="0" oninput="kiraEKS()">
+                    </div>
+                    <div class="col-6">
+                      <label class="form-label small fw-semibold">Hari 40%</label>
+                      <input type="number" id="h40" class="form-control" placeholder="0" min="0" oninput="kiraEKS()">
+                    </div>
+                    <div class="col-6">
+                      <label class="form-label small fw-semibold">Hari 20%</label>
+                      <input type="number" id="h20" class="form-control" placeholder="0" min="0" oninput="kiraEKS()">
+                    </div>
+                    <div class="col-6">
+                      <label class="form-label small fw-semibold">Half Day (50%)</label>
+                      <input type="number" id="h50" class="form-control" placeholder="0" min="0" oninput="kiraEKS()">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Panduan Rujukan -->
+                <div class="col-md-5">
+                  <div class="panduan-box h-100 d-flex flex-column justify-content-center">
+                    <div class="fw-bold text-dark mb-1">📋 Panduan Kelayakan:</div>
+                    <ul class="list-unstyled mb-0 text-dark small" style="line-height: 1.4;">
+                      <li><strong>100%:</strong> Tiada makanan disediakan</li>
+                      <li><strong>80%:</strong> Disediakan Sarapan Sahaja</li>
+                      <li><strong>60%:</strong> Disediakan Makan T.Hari / Malam Sahaja</li>
+                      <li><strong>40%:</strong> Disediakan Sarapan & (T.Hari / Malam)</li>
+                      <li><strong>20%:</strong> Disediakan Makan T.Hari & Malam</li>
+                      <li><strong>50%:</strong> Separuh Hari (Half Day)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-end fw-bold text-secondary mt-3 pt-2 border-top">Jumlah Elaun Makan: <span id="subMakan" class="text-dark fs-5">RM 0.00</span></div>
+            </div>
+          </div>
+
+          <!-- Elaun Lojing -->
+          <div class="card">
+            <div class="card-header bg-secondary text-white">B. Elaun Lojing</div>
+            <div class="card-body">
+              <div class="p-2 border rounded bg-light">
+                <label class="form-label fw-bold text-dark mb-1">Bilangan Malam Lojing</label>
+                <div class="row align-items-center">
+                  <div class="col-7">
+                    <input type="number" id="mlmLojing" class="form-control" placeholder="0" min="0" oninput="kiraEKS()">
+                  </div>
+                  <div class="col-5 text-end fw-bold">
+                    RM <span id="subLojing">0.00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Total EKS -->
+          <div class="card bg-eks">
+            <div class="card-body text-center p-3">
+              <h6 class="text-white-50 text-uppercase mb-1">JUMLAH TUNTUTAN EKS</h6>
+              <h2 class="display-6 fw-bold my-1" id="totalEKS">RM 0.00</h2>
+              <small class="text-white-50">*Elaun Makan + Elaun Lojing</small>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ================= TAB 2: KALKULATOR OT ================= -->
+        <div class="tab-pane fade" id="tab-ot" role="tabpanel">
+          
+          <div class="row g-3">
+            <!-- Kolum Kiri/Utama: Gaji & Input Jam OT -->
+            <div class="col-md-7">
+              <!-- Gaji Asas -->
+              <div class="card p-3 mb-3">
+                <label class="form-label fw-bold mb-1">Gaji Asas Bulanan (RM):</label>
+                <input type="number" id="gajiAsas" class="form-control form-control-lg" placeholder="Contoh: 2500.00" oninput="kiraOT()">
+                <small class="text-muted mt-1">Formula: (Gaji Asas × 12 × Kadar × Jam) ÷ (313 × 8)</small>
+              </div>
+
+              <!-- Input Kadar Jam -->
+              <div class="card">
+                <div class="card-header bg-primary text-white">Jam OT Mengikut Kadar</div>
+                <div class="card-body">
+                  
+                  <!-- 1 1/8 -->
+                  <div class="mb-3 pb-2 border-bottom">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="fw-bold small">Hari Biasa - Siang <span class="kadar-badge">1 1/8 (1.125)</span></span>
+                      <span class="fw-bold text-primary">RM <span id="rm1125">0.00</span></span>
+                    </div>
+                    <input type="number" id="jam1125" class="form-control" placeholder="Jam Claimed" min="0" step="0.25" oninput="kiraOT()">
+                  </div>
+
+                  <!-- 1 1/4 -->
+                  <div class="mb-3 pb-2 border-bottom">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="fw-bold small">Hari Biasa (Malam) / Hujung Minggu (Siang) <span class="kadar-badge">1 1/4 (1.25)</span></span>
+                      <span class="fw-bold text-primary">RM <span id="rm125">0.00</span></span>
+                    </div>
+                    <input type="number" id="jam125" class="form-control" placeholder="Jam Claimed" min="0" step="0.25" oninput="kiraOT()">
+                  </div>
+
+                  <!-- 1 1/3 -->
+                  <div class="mb-3 pb-2 border-bottom">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="fw-bold small">Hujung Minggu - Malam <span class="kadar-badge">1 1/3 (1.333)</span></span>
+                      <span class="fw-bold text-primary">RM <span id="rm1333">0.00</span></span>
+                    </div>
+                    <input type="number" id="jam1333" class="form-control" placeholder="Jam Claimed" min="0" step="0.25" oninput="kiraOT()">
+                  </div>
+
+                  <!-- 1 3/4 -->
+                  <div class="mb-3 pb-2 border-bottom">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="fw-bold small">Cuti Umum - Siang <span class="kadar-badge">1 3/4 (1.75)</span></span>
+                      <span class="fw-bold text-primary">RM <span id="rm175">0.00</span></span>
+                    </div>
+                    <input type="number" id="jam175" class="form-control" placeholder="Jam Claimed" min="0" step="0.25" oninput="kiraOT()">
+                  </div>
+
+                  <!-- 2.0 -->
+                  <div class="mb-2">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="fw-bold small">Cuti Umum - Malam <span class="kadar-badge">2.0</span></span>
+                      <span class="fw-bold text-primary">RM <span id="rm20">0.00</span></span>
+                    </div>
+                    <input type="number" id="jam20" class="form-control" placeholder="Jam Claimed" min="0" step="0.25" oninput="kiraOT()">
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Kolum Kanan: Kalkulator Jam Kerja -->
+            <div class="col-md-5">
+              <div class="card p-3 jam-kerja-card">
+                <div class="fw-bold text-primary mb-1 d-flex align-items-center gap-1">
+                  ⏱️ <span>Kalkulator Jam Kerja</span>
+                </div>
+                <p class="small text-muted mb-2" style="font-size: 0.8rem;">
+                  Jam rehat (13:00-14:00 & 19:00-20:00) ditolak secara automatik pada nilai perpuluhan jika merentasi waktu rehat.
+                </p>
+
+                <div class="mb-2">
+                  <label class="form-label small fw-semibold mb-1">Masa Mula:</label>
+                  <input type="time" id="mulaOT" class="form-control" oninput="kiraJamKerja()">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label small fw-semibold mb-1">Masa Tamat:</label>
+                  <input type="time" id="tamatOT" class="form-control" oninput="kiraJamKerja()">
+                </div>
+
+                <div class="p-3 border rounded bg-white text-center shadow-sm">
+                  <span class="d-block small text-muted mb-1">Masa Sebenar (Mula - Tamat):</span>
+                  <div class="fs-5 fw-bold text-dark" id="hasilJamKerja">0 Jam 0 Minit</div>
+                  <hr class="my-2">
+                  <span class="d-block small text-muted mb-1">Jam Tuntutan (Selepas Tolak Rehat):</span>
+                  <div class="fs-5 fw-bold text-primary font-monospace" id="hasilDecimalJam">(0.00 Jam)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Total OT -->
+          <div class="card bg-ot mt-3">
+            <div class="card-body text-center p-3">
+              <h6 class="text-white-50 text-uppercase mb-1">JUMLAH TUNTUTAN OT</h6>
+              <h2 class="display-6 fw-bold my-1" id="totalOT">RM 0.00</h2>
+              <small class="text-white-50">*Hasil tambah semua kadar jam OT</small>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      var dataKadarEKS = {
+        'JusaC': { makan: 195, lojing: 165 },
+        '14':    { makan: 190, lojing: 160 },
+        '13':    { makan: 175, lojing: 150 },
+        '11_12': { makan: 140, lojing: 140 },
+        '9_10':  { makan: 125, lojing: 130 },
+        '5_8':   { makan: 120, lojing: 120 },
+        '1_3':   { makan: 115, lojing: 110 },
+        'PSH':   { makan: 55,  lojing: 45 }
+      };
+
+      function kiraEKS() {
+        var gred = document.getElementById('gredEKS').value;
+        var k = dataKadarEKS[gred] || dataKadarEKS['5_8'];
+
+        var h100 = parseFloat(document.getElementById('h100').value) || 0;
+        var h80  = parseFloat(document.getElementById('h80').value) || 0;
+        var h60  = parseFloat(document.getElementById('h60').value) || 0;
+        var h40  = parseFloat(document.getElementById('h40').value) || 0;
+        var h20  = parseFloat(document.getElementById('h20').value) || 0;
+        var h50  = parseFloat(document.getElementById('h50').value) || 0;
+
+        var sumMakan = (h100 * k.makan * 1.0) +
+                       (h80  * k.makan * 0.8) +
+                       (h60  * k.makan * 0.6) +
+                       (h40  * k.makan * 0.4) +
+                       (h20  * k.makan * 0.2) +
+                       (h50  * k.makan * 0.5);
+
+        var mlmLojing = parseFloat(document.getElementById('mlmLojing').value) || 0;
+        var sumLojing = mlmLojing * k.lojing;
+
+        var sumEKS = sumMakan + sumLojing;
+
+        document.getElementById('subMakan').innerText = 'RM ' + sumMakan.toFixed(2);
+        document.getElementById('subLojing').innerText = sumLojing.toFixed(2);
+        document.getElementById('totalEKS').innerText = 'RM ' + sumEKS.toFixed(2);
+      }
+
+      function kiraOT() {
+        var gaji = parseFloat(document.getElementById('gajiAsas').value) || 0;
+        if (gaji <= 0) {
+          document.getElementById('rm1125').innerText = '0.00';
+          document.getElementById('rm125').innerText = '0.00';
+          document.getElementById('rm1333').innerText = '0.00';
+          document.getElementById('rm175').innerText = '0.00';
+          document.getElementById('rm20').innerText = '0.00';
+          document.getElementById('totalOT').innerText = 'RM 0.00';
+          return;
+        }
+
+        var jam1125 = parseFloat(document.getElementById('jam1125').value) || 0;
+        var jam125  = parseFloat(document.getElementById('jam125').value) || 0;
+        var jam1333 = parseFloat(document.getElementById('jam1333').value) || 0;
+        var jam175  = parseFloat(document.getElementById('jam175').value) || 0;
+        var jam20   = parseFloat(document.getElementById('jam20').value) || 0;
+
+        var formula = function(kadar, jam) {
+          return (gaji * 12 * kadar * jam) / (313 * 8);
+        };
+
+        var r1125 = formula(1.125, jam1125);
+        var r125  = formula(1.25, jam125);
+        var r1333 = formula(1.33333333, jam1333);
+        var r175  = formula(1.75, jam175);
+        var r20   = formula(2.0, jam20);
+
+        var totalOT = r1125 + r125 + r1333 + r175 + r20;
+
+        document.getElementById('rm1125').innerText = r1125.toFixed(2);
+        document.getElementById('rm125').innerText  = r125.toFixed(2);
+        document.getElementById('rm1333').innerText = r1333.toFixed(2);
+        document.getElementById('rm175').innerText  = r175.toFixed(2);
+        document.getElementById('rm20').innerText   = r20.toFixed(2);
+
+        document.getElementById('totalOT').innerText = 'RM ' + totalOT.toFixed(2);
+      }
+
+      // 3. Pengiraan Jam Kerja (Masa Mula -> Masa Tamat)
+      function kiraJamKerja() {
+        var mula = document.getElementById('mulaOT').value;
+        var tamat = document.getElementById('tamatOT').value;
+
+        if (!mula || !tamat) {
+          document.getElementById('hasilJamKerja').innerText = '0 Jam 0 Minit';
+          document.getElementById('hasilDecimalJam').innerText = '(0.00 Jam)';
+          return;
+        }
+
+        var mulaArr = mula.split(':');
+        var tamatArr = tamat.split(':');
+
+        var mulaMin = parseInt(mulaArr[0], 10) * 60 + parseInt(mulaArr[1], 10);
+        var tamatMin = parseInt(tamatArr[0], 10) * 60 + parseInt(tamatArr[1], 10);
+
+        // Jika masa tamat lebih kecil/sama dengan masa mula, dikira merentasi tengah malam
+        if (tamatMin <= mulaMin) {
+          tamatMin += 24 * 60;
+        }
+
+        // 1. Masa Sebenar Kasar (Tanpa tolak rehat)
+        var totalMinitKasar = tamatMin - mulaMin;
+        var jamKasar = Math.floor(totalMinitKasar / 60);
+        var minitKasar = totalMinitKasar % 60;
+
+        // 2. Masa Rehat Ditolak (Hanya jika merentasi waktu rehat)
+        var breaks = [
+          { start: 780, end: 840 },                 // 13:00 - 14:00 (Hari 1)
+          { start: 1140, end: 1200 },               // 19:00 - 20:00 (Hari 1)
+          { start: 780 + 1440, end: 840 + 1440 },   // 13:00 - 14:00 (Hari 2)
+          { start: 1140 + 1440, end: 1200 + 1440 }  // 19:00 - 20:00 (Hari 2)
+        ];
+
+        var minitRehatDitolak = 0;
+
+        breaks.forEach(function(b) {
+          if (mulaMin < b.start && tamatMin > b.start) {
+            var overlapStart = Math.max(mulaMin, b.start);
+            var overlapEnd = Math.min(tamatMin, b.end);
+            if (overlapEnd > overlapStart) {
+              minitRehatDitolak += (overlapEnd - overlapStart);
+            }
+          }
+        });
+
+        // 3. Masa Perpuluhan Bersih
+        var minitBersih = totalMinitKasar - minitRehatDitolak;
+        if (minitBersih < 0) minitBersih = 0;
+
+        var jamPerpuluhan = (minitBersih / 60).toFixed(2);
+
+        document.getElementById('hasilJamKerja').innerText = jamKasar + ' Jam ' + minitKasar + ' Minit';
+        document.getElementById('hasilDecimalJam').innerText = '(' + jamPerpuluhan + ' Jam Tuntutan)';
+      }
+    </script>
+  </body>
+</html>
