@@ -292,43 +292,45 @@
         document.getElementById('totalEKS').innerText = 'RM ' + sumEKS.toFixed(2);
       }
 
-      function kiraOT() {
-        var gaji = parseFloat(document.getElementById('gajiAsas').value) || 0;
-        if (gaji <= 0) {
-          document.getElementById('rm1125').innerText = '0.00';
-          document.getElementById('rm125').innerText = '0.00';
-          document.getElementById('rm1333').innerText = '0.00';
-          document.getElementById('rm175').innerText = '0.00';
-          document.getElementById('rm20').innerText = '0.00';
-          document.getElementById('totalOT').innerText = 'RM 0.00';
-          return;
-        }
+     function kiraOT() {
+  var gaji = parseFloat(document.getElementById('gajiAsas').value) || 0;
+  if (gaji <= 0) {
+    document.getElementById('rm1125').innerText = '0.00';
+    document.getElementById('rm125').innerText = '0.00';
+    document.getElementById('rm1333').innerText = '0.00';
+    document.getElementById('rm175').innerText = '0.00';
+    document.getElementById('rm20').innerText = '0.00';
+    document.getElementById('totalOT').innerText = 'RM 0.00';
+    return;
+  }
 
-        var jam1125 = parseFloat(document.getElementById('jam1125').value) || 0;
-        var jam125  = parseFloat(document.getElementById('jam125').value) || 0;
-        var jam1333 = parseFloat(document.getElementById('jam1333').value) || 0;
-        var jam175  = parseFloat(document.getElementById('jam175').value) || 0;
-        var jam20   = parseFloat(document.getElementById('jam20').value) || 0;
+  var jam1125 = parseFloat(document.getElementById('jam1125').value) || 0;
+  var jam125  = parseFloat(document.getElementById('jam125').value) || 0;
+  var jam1333 = parseFloat(document.getElementById('jam1333').value) || 0;
+  var jam175  = parseFloat(document.getElementById('jam175').value) || 0;
+  var jam20   = parseFloat(document.getElementById('jam20').value) || 0;
 
-        var formula = function(kadar, jam) {
-          return (gaji * 12 * kadar * jam) / (313 * 8);
-        };
+  var formula = function(kadar, jam) {
+    return (gaji * 12 * kadar * jam) / (313 * 8);
+  };
 
-        var r1125 = formula(1.125, jam1125);
-        var r125  = formula(1.25, jam125);
-        var r1333 = formula(1.33333333, jam1333);
-        var r175  = formula(1.75, jam175);
-        var r20   = formula(2.0, jam20);
+  // Kira nilai sebenar bagi setiap kadar dan bundarkan ke 2 tempat perpuluhan (sen)
+  var r1125 = parseFloat(formula(1.125, jam1125).toFixed(2));
+  var r125  = parseFloat(formula(1.25, jam125).toFixed(2));
+  var r1333 = parseFloat(formula(1.33333333, jam1333).toFixed(2));
+  var r175  = parseFloat(formula(1.75, jam175).toFixed(2));
+  var r20   = parseFloat(formula(2.0, jam20).toFixed(2));
 
-        var totalOT = r1125 + r125 + r1333 + r175 + r20;
+  // Jumlahkan nilai yang telah dibundarkan mengikut nilai pada paparan
+  var totalOT = r1125 + r125 + r1333 + r175 + r20;
 
-        document.getElementById('rm1125').innerText = r1125.toFixed(2);
-        document.getElementById('rm125').innerText  = r125.toFixed(2);
-        document.getElementById('rm1333').innerText = r1333.toFixed(2);
-        document.getElementById('rm175').innerText  = r175.toFixed(2);
-        document.getElementById('rm20').innerText   = r20.toFixed(2);
+  document.getElementById('rm1125').innerText = r1125.toFixed(2);
+  document.getElementById('rm125').innerText  = r125.toFixed(2);
+  document.getElementById('rm1333').innerText = r1333.toFixed(2);
+  document.getElementById('rm175').innerText  = r175.toFixed(2);
+  document.getElementById('rm20').innerText   = r20.toFixed(2);
 
-        document.getElementById('totalOT').innerText = 'RM ' + totalOT.toFixed(2);
+  document.getElementById('totalOT').innerText = 'RM ' + totalOT.toFixed(2)
       }
 
       // 3. Pengiraan Jam Kerja (Masa Mula -> Masa Tamat)
